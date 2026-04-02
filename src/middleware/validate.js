@@ -18,7 +18,7 @@ const createTaskSchema = z.object({
     priority: z
         .enum(['LOW', 'MEDIUM', 'HIGH'])
         .optional(),
-});
+}).strict();
 
 const updateTaskSchema = z.object({
     title: z
@@ -43,7 +43,7 @@ const updateTaskSchema = z.object({
   completed: z
     .boolean({ invalid_type_error: 'Completed must be a boolean' })
     .optional(),
-});
+}).strict();
 
 // Middleware factory - takes a schema, returns a middleware function
 function validate(schema){
