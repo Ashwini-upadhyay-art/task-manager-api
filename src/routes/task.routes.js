@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/task.controller');
 const { validate, validateId, createTaskSchema, updateTaskSchema } = require('../middleware/validate');
+const { authenticate } = require('../middleware/auth');
+
+// All task routes require authenticate
+router.use(authenticate);
 
 router.post('/', validate(createTaskSchema), taskController.createTask);
 router.get('/', taskController.getAllTask);

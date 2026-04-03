@@ -1,17 +1,18 @@
 const prisma = require('../config/database');
 
-async function createTask(data) {
+async function createTask(data, userId) {
     return await prisma.task.create({
         data: {
             title: data.title,
             description: data.description,
             priority: data.priority,
+            userId,
         },
     });
 }
 
-async function getAllTasks(filters = {}) {
-    const where = {};
+async function getAllTasks(filters = {}, userId) {
+    const where = { userId };
 
     if (filters.completed != undefined) {
         where.completed = filters.completed === 'true';
@@ -27,22 +28,22 @@ async function getAllTasks(filters = {}) {
     });
 }
 
-async function getTaskById(id) {
+async function getTaskById(id, userId) {
     return await prisma.task.findUnique({
-        where: { id },
+        where: { id, userId },
     });
 }
 
-async function updateTask(id, data) {
+async function updateTask(id, data, userId) {
     return await prisma.task.update({
-        where: { id },
+        where: { id, userId },
         data,
     });
 }
 
-async function deleteTask(id) {
+async function deleteTask(id, userId) {
     return await prisma.task.delete({
-        where: { id },
+        where: { id, userId },
     });
 }
 

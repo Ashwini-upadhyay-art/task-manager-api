@@ -45,6 +45,37 @@ const updateTaskSchema = z.object({
     .optional(),
 }).strict();
 
+const registerSchema = z.object({
+  name: z
+    .string({ error: 'Name is required' })
+    .min(2, 'Name must be at least 2 characters')
+    .max(50, 'Name cannot exceed 50 characters')
+    .trim(),
+
+  email: z
+    .string({ error: 'Email is required' })
+    .email('Must be a valid email address')
+    .trim()
+    .toLowerCase(),
+
+  password: z
+    .string({ error: 'Password is required' })
+    .min(8, 'Password must be at least 8 characters')
+    .max(100, 'Password cannot exceed 100 characters'),
+});
+
+const loginSchema = z.object({
+  email: z
+    .string({ error: 'Email is required' })
+    .email('Must be a valid email address')
+    .trim()
+    .toLowerCase(),
+
+  password: z
+    .string({ error: 'Password is required' })
+    .min(1, 'Password is required'),
+});
+
 function validateId(req, res, next){
     const id = Number(req.params.id);
 
@@ -84,4 +115,4 @@ function validate(schema){
     };
 }
 
-module.exports = { validate, validateId, createTaskSchema, updateTaskSchema };
+module.exports = { validate, validateId, createTaskSchema, updateTaskSchema, loginSchema, registerSchema };

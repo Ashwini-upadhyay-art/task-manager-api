@@ -1,5 +1,6 @@
 const express = require('express');
 const taskRoutes = require('./routes/task.routes');
+const authRoutes = require('./routes/auth.routes');
 const errorHandler = require('./middleware/task.errorHandler');
 
 const app = express();
@@ -13,6 +14,7 @@ app.get('/health', (req, res)=>{
 })
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
 // 404 handler - must be after all routes
