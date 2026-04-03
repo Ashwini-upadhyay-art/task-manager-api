@@ -45,6 +45,20 @@ const updateTaskSchema = z.object({
     .optional(),
 }).strict();
 
+function validateId(req, res, next){
+    const id = Number(req.params.id);
+
+    if(!Number.isInteger(id) || id <= 0){
+        return res.status(400).json({
+            success:false,
+            error: 'Invalid ID - must be a positive integer',
+        });
+    }
+
+    req.params.id = id;
+    next();
+}
+
 // Middleware factory - takes a schema, returns a middleware function
 function validate(schema){
     return(req, res, next) => {
@@ -70,4 +84,4 @@ function validate(schema){
     };
 }
 
-module.exports = { validate, createTaskSchema, updateTaskSchema };
+module.exports = { validate, validateId, createTaskSchema, updateTaskSchema };
